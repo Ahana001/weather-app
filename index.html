@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-14/css/all.min.css" integrity="sha512-YVm6dLGBSj6KG3uUb1L5m25JXXYrd9yQ1P7RKDSstzYiPxI2vYLCCGyfrlXw3YcN/EM3UJ/IAqsCmfdc6pk/Tg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Dongle', sans-serif;
+}
+body{
+    background-color: #3DB2FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 30vw;
+    background-color: white;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+.header{
+    color: #3DB2FF;
+    border-bottom: 2px solid black;
+    text-align: left;
+    font-size: 2rem;
+    padding: 0 1rem;
+}
+.weather i{
+    margin: 3vh;
+    font-size: 3rem;
+    animation: iconAni 2s infinite;
+}
+@keyframes iconAni{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.5);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+#temperature{
+    font-size: 3rem;
+}
+.location{
+    display: flex;
+    justify-content: center;
+}
+.location i{
+    font-size: 3rem;
+    margin-right: 2rem;
+    animation: move 3s infinite;
+}
+.location span{
+    font-size: 2rem;
+}
+@keyframes move{
+    0%{
+        transform: translateX(50%);
+    }
+    50%{
+        transform: translateX(-50%);
+    }
+    100%{
+        transform: translateX(50%);
+    }
+}
+.info{
+    font-size: 1.5rem;
+}
+.bottom{
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    border-top: 2px solid black;
+}
+.bottom .temp{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    border-right: 2px solid black;
+    font-size: 2rem;
+    
+}
+.bottom .temp i{
+    margin: 1rem 0;
+    color: #3DB2FF;
+    font-size: 4rem;
+}
+
+.bottom .humidity{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;  
+    height: 100%; 
+    font-size: 2rem;
+}
+.bottom .humidity i{
+    margin: 1rem 0;
+    color: #3DB2FF;
+    font-size: 4rem;
+}
+@media only screen and (max-width: 768px) {
+    .container{
+        width: 90vw;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Weather App
+        </div>
+        <div class="weather">
+
+        </div>
+        <p id="temperature">{%temp%} &#176; C</p>
+        
+        <div class="location">
+            <i class="fas fa-street-view"></i>
+            <span>{%name%}</span>
+        </div>
+
+        <div class="info">
+            <span id="date"></span><span id="time"></span>
+        </div>
+        <div class="bottom">
+            <div class="temp">
+                <i class="fas fa-thermometer-half"></i>
+                <div>
+                    <P >{%feel-temp%} &#176; C</p>
+                    <p>Feels like</p>
+                </div>
+            </div>
+            <div class="humidity">
+                <i class="fas fa-tint"></i>
+                <div>
+                    <p>{%humidity%} %</p>
+                    <p>Humidity</p>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+    <script>
+        var tempIcon = "{%icon%}";
+        let weatherIcon = document.querySelector(".weather");
+        if(tempIcon == "Clear"){
+        weatherIcon.innerHTML = '<i class="fas fa-sun" style="color: #FFE162"></i>';
+        }else if(tempIcon == "Rainy"){
+        weatherIcon.innerHTML =  '<i class="fas fa-cloud-rain" style="color: #92A9BD"></i>';
+        }else if(tempIcon == "Snow"){
+        weatherIcon.innerHTML =  '<i class="fas fa-snowman" style="color: #92A9BD"></i>';
+        }else if(tempIcon == "Haze"){
+        weatherIcon.innerHTML =  '<i class="fas fa-smog" style="color: #92A9BD"></i>';
+        }else{
+        weatherIcon.innerHTML =  '<i class="fas fa-cloud" style="color: #3DB2FF"></i>';
+        }
+
+        var info = document.querySelector("#time");
+        var period = "AM";
+        var hour = 0;
+        var minute = 0;
+        const currentTime = ()=>{
+            const date = new Date();
+            hour = date.getHours();
+            minute = date.getMinutes();
+            if(hour > 11){
+                period = "PM";
+            }
+            if(hour>12){
+                hour = hour - 12;
+            }
+            if(minute<10){
+                minute = "0"+minute;
+            }
+            return `| ${hour}:${minute}${period}`;
+        }
+        info.innerHTML = currentTime();
+
+        var currentdate =  document.querySelector("#date");
+        var day = "";
+        var month = "";
+        var dateNumber = 0;
+        var setDate = ()=>{
+            const date = new Date();
+            day = date.getDay();
+            const weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            day = weekday[day];
+            month = date.getMonth();
+            var months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]; 
+            month = months[month];
+            dateNumber = date.getDate();
+            return `${day}|${month} ${dateNumber}`;
+        }
+        currentdate.innerHTML = setDate();
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>
