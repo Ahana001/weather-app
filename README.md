@@ -13,4 +13,4 @@ You need to write the following commands on the terminal screen so that you can 
 
 4. npm start
 
-this application is running on [localhost](http://localhost:8000/)
+this application should now be running on [localhost](http://localhost:8000/)
