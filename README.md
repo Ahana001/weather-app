@@ -5,12 +5,12 @@
 
 You need to write the following commands on the terminal screen so that you can run the project locally.
 
-1. git clone "https://github.com/Ahana001/weather-app.git" 
+    1. git clone "https://github.com/Ahana001/weather-app.git" 
 
-2. cd weather-app
+    2. cd weather-app
 
-3. npm install
+    3. npm install
 
-4. npm start
+    4. npm start
 
 this application should now be running on [localhost](http://localhost:8000/)
